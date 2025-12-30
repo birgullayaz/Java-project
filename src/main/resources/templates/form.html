@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mesaj Panosu</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .message {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            background-color: white;
+        }
+        .message-content {
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+        .message-time {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+            min-height: 100px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1em;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Mesaj Panosu</h1>
+    
+    <!-- Mesaj Formu -->
+    <div class="form-group">
+        <h3>Yeni Mesaj Ekle</h3>
+        <form action="/submit" method="post" th:object="${newMessage}">
+            <div>
+                <textarea th:field="*{content}" placeholder="Mesajınızı yazın..." required></textarea>
+            </div>
+            <button type="submit">Gönder</button>
+        </form>
+    </div>
+    
+    <!-- Mesaj Listesi -->
+    <div class="messages">
+        <h3>Mesajlar</h3>
+        <div th:if="${not #lists.isEmpty(messages)}">
+            <div class="message" th:each="message : ${messages}">
+                <div class="message-content" th:text="${message.content}"></div>
+                <div class="message-time" th:text="${#temporals.format(message.createdAt, 'dd.MM.yyyy HH:mm')}"></div>
+            </div>
+        </div>
+        <div th:if="${#lists.isEmpty(messages)}">
+            <p>Henüz mesaj yok. İlk mesajı siz yazın!</p>
+        </div>
+    </div>
+    
+    <div style="margin-top: 30px; text-align: center;">
+        <a href="/hello" style="color: #007bff; text-decoration: none;">Hello World sayfasına git</a>
+    </div>
+</body>
+</html>
